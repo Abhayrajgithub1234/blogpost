@@ -36,7 +36,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Connection has been established sucessfully")
+	fmt.Println("Connection has been established sucessfully")
+
+	PORT = ":" + PORT
 
 	http.HandleFunc("/post", api.Post)
 	if err := http.ListenAndServe(PORT, nil); err != nil {
