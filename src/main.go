@@ -1,15 +1,15 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/Abhayrajgithub123/blogpost/api"
 	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
+
+	"github.com/Abhayrajgithub123/blogpost/api"
+	"github.com/Abhayrajgithub123/blogpost/database"
 )
 
 func main() {
@@ -26,13 +26,14 @@ func main() {
 	connectionString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
 
-	db, err := sql.Open("postgres", connectionString)
+	db, err := database.NewDatabase(connectionString)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	if err = db.Ping(); err != nil {
+	err = db.Ping()
+	if err != nil {
 		log.Fatal(err)
 	}
 
